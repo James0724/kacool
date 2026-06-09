@@ -122,7 +122,7 @@ export function AboutHero() {
             }}
           >
             <div className="font-display text-[1.55rem] font-semibold leading-none">
-              <Counter from={0} to={30} duration={1} />+
+              <Counter from={0} to={30} animationOptions={{ duration: 1 }} />+
             </div>
             <div className="mt-1 text-[0.68rem] uppercase tracking-wider text-text-faint">
               Projects
