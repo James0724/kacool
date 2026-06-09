@@ -99,7 +99,7 @@ export function AboutHero() {
             transition={{ delay: 0.6, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           >
             <div className="font-display text-[1.55rem] font-semibold leading-none">
-              <Counter from={0} to={5} duration={1} />+
+              <Counter from={0} to={5} animationOptions={{ duration: 1 }} />+
             </div>
             <div className="mt-1 text-[0.68rem] uppercase tracking-wider text-text-faint">
               Years exp.
