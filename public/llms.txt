@@ -1,0 +1,99 @@
+# James Kahoro — Software Engineer & Designer
+
+> Full-stack developer & UI engineer crafting scalable, accessible, pixel-precise digital products for brands and founders. Based in Nairobi, Kenya. Available for remote & global freelance work.
+
+## About
+
+James Kahoro is a senior full-stack developer and UI designer with 5+ years of professional experience building web applications and digital products. He partners with founders, startups, and agencies to ship products that are fast, scalable, and visually compelling.
+
+Key facts:
+- 5+ years professional experience (2019–present)
+- 30+ projects delivered
+- 17 technologies mastered
+- 100% client satisfaction rate
+- Based in Nairobi, Kenya
+- Available for remote & global freelance projects
+
+## Services
+
+### Full-Stack Development
+Responsive, accessible web apps built with React, Next.js, and Node.js — fast and engaging on every device. Full ownership from architecture through deployment — APIs, databases, UIs, and CI/CD pipelines.
+
+### UI / UX Design
+User-focused interfaces shaped by real research. Wireframes to high-fidelity Figma prototypes, design systems, and motion design with Framer Motion.
+
+### Branding & Digital Identity
+Cohesive brand identities — personality, voice, and visual language that make products memorable and consistent across every touchpoint.
+
+## Technology Stack
+
+**Frontend:** HTML5, CSS3, JavaScript (ES2022+), TypeScript, React.js, Next.js 14 (App Router), Redux, Framer Motion, Tailwind CSS
+**Backend:** Node.js, Express.js
+**Databases:** MongoDB, PostgreSQL, Firebase
+**DevOps & Tools:** Docker, Git, CI/CD, Vercel
+**Design:** Figma, component systems, design tokens, Three.js / Cobe (3D)
+
+## Featured Projects
+
+### Divine Travel Nest Safaris (2024)
+Full-stack travel & safari booking platform for a Kenya-based safari company. Responsive, performance-optimized. Tags: Development, Design.
+URL: https://divinetravelnestsafaris.com/
+
+### 247 Cybercafé (2022)
+Modern business web presence for a cybercafé. Custom design, responsive layout. Tags: Development, Design.
+URL: https://247cybercafepro.netlify.app/
+
+### Vicbon Interiors (2020)
+Portfolio & showcase site for an interior design firm. Visual-first, responsive grid, smooth animations. Tags: Development, Design.
+URL: https://vicboninteriors.netlify.app/
+
+### Endless Plains Safaris (2021)
+Safari travel discovery platform for East Africa with booking inquiry flow. Tags: Development, Design.
+URL: https://endlessplainsafaris.netlify.app/
+
+## Work Experience
+
+**Senior Full-Stack Developer — Freelance / Remote** (2022–Present)
+Designing and shipping complete web products for clients across East Africa and globally. Full ownership from architecture to deployment — APIs, databases, UIs, and brand identity.
+Notable: Divine Travel Nest Safaris, SaaS platforms, remote-first workflow.
+
+**Frontend Developer — Agencies & Startups** (2020–2022)
+Built responsive frontends and complete client implementations for business websites, interior design portfolios, and hospitality platforms.
+Notable: Vicbon Interiors (2020), Endless Plains Safaris (2021), 247 Cybercafé (2022).
+
+**Self-Taught Web Developer — Personal Projects & Open Source** (2019–2020)
+Immersed in web fundamentals — HTML, CSS, JavaScript, and React. Built personal projects, contributed to open source, and landed first freelance contracts.
+
+## Working Process
+
+1. **Discovery** — Deep-dive into goals, users, and constraints before any code is written
+2. **Design** — Wireframes evolve into high-fidelity Figma prototypes with aligned visual direction
+3. **Build** — Iterative, tested, transparent development with working increments at each stage
+4. **Review & QA** — Cross-device testing, performance profiling, accessibility audits
+5. **Launch** — CI/CD deployment, analytics setup, DNS configuration, post-launch support included
+
+## Testimonials
+
+"James has an exceptional ability to translate ideas into clean, performant interfaces. Every delivery was ahead of schedule and beyond expectation." — Vritika N., Regional Head @ GirlScript
+
+"His design proficiency is remarkable — consistently top-notch work that elevates the user experience. A genuine asset on any product team." — Amrit Raj, Senior Developer @ Ignite
+
+"Strong technical skills paired with a collaborative attitude. James played a pivotal role in building the application from the ground up." — Divya Walia, Senior Developer @ Nagarro
+
+"Beyond his technical prowess, what sets James apart is his keen eye and the questions he asks that elevate the entire team's output." — Elavarasan M., Technical Lead @ Ignite
+
+## Contact
+
+- **Email:** jameskahoro07@gmail.com
+- **LinkedIn:** https://www.linkedin.com/in/james-kahoro/
+- **GitHub:** https://github.com/James0724
+- **Location:** Nairobi, Kenya (available remotely worldwide)
+- **Portfolio:** https://jameskahoro.dev
+
+## Site Pages
+
+- Home: https://jameskahoro.dev/
+- About: https://jameskahoro.dev/about
+- Projects: https://jameskahoro.dev/projects
+- Contact: https://jameskahoro.dev/contact
+- Sitemap: https://jameskahoro.dev/sitemap.xml

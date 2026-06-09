@@ -1,0 +1,536 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   Kahosh Portfolio — Design tokens (ported from portfolio.css)
+   Fonts (--font-display / --font-body / --font-mono) are injected
+   by next/font via the <html> class — see app/fonts.ts.
+   ============================================================ */
+:root {
+  /* Surfaces — deep, cool slate */
+  --bg: #0a0f1c;
+  --bg-2: #0c1322;
+  --elev-1: rgba(148, 173, 210, 0.04);
+  --elev-2: rgba(148, 173, 210, 0.06);
+  --card: #0e1626;
+  --card-soft: #0c1322;
+
+  /* Lines */
+  --line: rgba(148, 173, 210, 0.1);
+  --line-strong: rgba(148, 173, 210, 0.18);
+
+  /* Text */
+  --text: #eaf1fb;
+  --text-dim: #9fb0c9;
+  --text-faint: #5d6e88;
+
+  /* Accent — sky blue */
+  --accent: #38bdf8;
+  --accent-soft: #7dd3fc;
+  --accent-deep: #0ea5e9;
+  --accent-glow: rgba(56, 189, 248, 0.45);
+  --on-accent: #06121f;
+
+  /* Layout */
+  --gutter: clamp(1.25rem, 4vw, 2.5rem);
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 100px;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    font-family: var(--font-body), system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  /* img {
+    display: block;
+    max-width: 100%;
+  } */
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+}
+
+/* ============================================================
+   Component layer — effects that are clearer as plain CSS than
+   as arbitrary Tailwind utilities (backgrounds, marquees,
+   gradients, rotating badge, project hover thumb).
+   ============================================================ */
+@layer components {
+  .gradient-text {
+    background: linear-gradient(
+      120deg,
+      #ffffff 10%,
+      var(--accent-soft) 60%,
+      var(--accent) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .container-x {
+    width: 100%;
+    max-width: 1240px;
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  /* ── Atmospheric background field ── */
+  .atmos {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background:
+      radial-gradient(
+        900px 620px at 78% -6%,
+        rgba(56, 189, 248, 0.2),
+        transparent 60%
+      ),
+      radial-gradient(
+        760px 560px at 8% 12%,
+        rgba(14, 165, 233, 0.14),
+        transparent 62%
+      ),
+      radial-gradient(
+        1100px 800px at 50% 108%,
+        rgba(56, 189, 248, 0.12),
+        transparent 60%
+      ),
+      linear-gradient(180deg, #0a0f1c 0%, #0a1120 50%, #090e1a 100%);
+  }
+  .atmos::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(148, 173, 210, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(148, 173, 210, 0.05) 1px, transparent 1px);
+    background-size: 64px 64px;
+    -webkit-mask-image: radial-gradient(
+      120% 90% at 50% 0%,
+      #000 0%,
+      transparent 72%
+    );
+    mask-image: radial-gradient(120% 90% at 50% 0%, #000 0%, transparent 72%);
+    opacity: 0.5;
+  }
+  .grain {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ── Buttons ── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    font-size: 0.92rem;
+    letter-spacing: 0.01em;
+    padding: 0.45rem 1.5rem;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    transition: all 0.22s ease;
+    white-space: nowrap;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: var(--on-accent);
+    box-shadow: 0 10px 30px -10px var(--accent-glow);
+  }
+  .btn-primary:hover {
+    background: var(--accent-soft);
+    transform: translateY(-2px);
+    box-shadow: 0 16px 40px -12px var(--accent-glow);
+  }
+  .btn-ghost {
+    background: var(--elev-1);
+    color: var(--text);
+    border-color: var(--line-strong);
+  }
+  .btn-ghost:hover {
+    background: var(--elev-2);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  /* ── Pill / live dot ── */
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.45rem 0.9rem;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: var(--elev-1);
+    font-size: 0.82rem;
+    color: var(--text-dim);
+  }
+  .dot-live {
+    position: relative;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .dot-live::after {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 1px solid var(--accent);
+    animation: ping2 1.8s ease-out infinite;
+  }
+
+  /* ── Eyebrow / section caption ── */
+  .ed-cap {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-family: var(--font-mono), monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.6rem;
+  }
+  .ed-cap::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent-glow);
+  }
+
+  /* ── Specialty marquee ── */
+  .ed-strip {
+    border-block: 1px solid var(--line);
+    overflow: hidden;
+    padding-block: clamp(1.4rem, 3vw, 2.2rem);
+    position: relative;
+    background: var(--bg-2);
+  }
+  .ed-strip .row {
+    display: flex;
+    gap: 2.6rem;
+    width: max-content;
+    animation: marquee 30s linear infinite;
+    align-items: center;
+  }
+  .ed-strip:hover .row {
+    animation-play-state: paused;
+  }
+  .ed-strip .item {
+    font-family: var(--font-display), sans-serif;
+    font-weight: 500;
+    font-size: clamp(1.4rem, 3vw, 2.4rem);
+    color: var(--text);
+    white-space: nowrap;
+  }
+  .ed-strip .sep {
+    color: var(--accent);
+    font-size: clamp(1rem, 2vw, 1.6rem);
+  }
+  .ed-strip .item.ghost {
+    color: transparent;
+    -webkit-text-stroke: 1px var(--text-faint);
+  }
+
+  /* ── Rotating avatar badge ── */
+  .ed-badge {
+    position: absolute;
+    top: clamp(7rem, 16vh, 10rem);
+    right: var(--gutter);
+    width: clamp(120px, 14vw, 184px);
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+  }
+  .ed-badge .spin {
+    position: absolute;
+    inset: 0;
+    animation: spin360 18s linear infinite;
+  }
+  .ed-badge .spin text {
+    font-family: var(--font-mono), monospace;
+    font-size: 8.4px;
+    letter-spacing: 3.5px;
+    fill: var(--text-dim);
+    text-transform: uppercase;
+  }
+  .ed-badge .core {
+    width: 60%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    z-index: 2;
+    border: 1px solid var(--line-strong);
+    background: var(--card-soft);
+    box-shadow:
+      0 0 0 2px rgba(10, 16, 28, 0.7),
+      0 14px 30px -12px rgba(0, 0, 0, 0.7);
+  }
+  .ed-badge .core img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 16%;
+  }
+
+  /* ── Project list rows + floating hover thumb ── */
+  .ed-proj {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto 1fr auto auto auto;
+    align-items: center;
+    gap: 1.6rem;
+    padding: clamp(1.5rem, 3vw, 2.4rem) 0.5rem;
+    border-bottom: 1px solid var(--line);
+    transition: padding-left 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .ed-proj:hover {
+    padding-left: 1.6rem;
+  }
+  .ed-proj .pt {
+    font-family: var(--font-display), sans-serif;
+    font-weight: 500;
+    font-size: clamp(1.5rem, 3.4vw, 2.6rem);
+    letter-spacing: -0.01em;
+    color: var(--text);
+    transition: color 0.3s ease;
+  }
+  .ed-proj:hover .pt {
+    color: var(--accent);
+  }
+  .ed-proj .parrow {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid var(--line-strong);
+    display: grid;
+    place-items: center;
+    color: var(--text-dim);
+    transition: all 0.3s ease;
+  }
+  .ed-proj:hover .parrow {
+    background: var(--accent);
+    color: var(--on-accent);
+    border-color: var(--accent);
+    transform: scale(1.05);
+  }
+  .ed-proj .pthumb {
+    position: absolute;
+    right: 16%;
+    top: 50%;
+    width: 250px;
+    aspect-ratio: 3/2;
+    border-radius: 14px;
+    overflow: hidden;
+    transform: translateY(-50%) scale(0.86);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 5;
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s ease;
+  }
+  .ed-proj .pthumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .ed-proj:hover .pthumb {
+    opacity: 1;
+    transform: translateY(-50%) scale(1) rotate(-3deg);
+  }
+  @media (max-width: 860px) {
+    .ed-proj {
+      grid-template-columns: auto 1fr auto;
+      gap: 1rem;
+    }
+    .ed-proj .ptag {
+      display: none;
+    }
+    .ed-proj .pthumb {
+      display: none;
+    }
+  }
+
+  /* ── Expertise cards ── */
+  .ed-exp {
+    position: relative;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    aspect-ratio: 3/3.6;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  .ed-exp img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(0.5) brightness(0.62);
+    transition:
+      transform 0.6s ease,
+      filter 0.4s ease;
+    z-index: 0;
+  }
+  .ed-exp:hover img {
+    transform: scale(1.06);
+    filter: grayscale(0.15) brightness(0.78);
+  }
+  .ed-exp::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      transparent 35%,
+      rgba(8, 13, 23, 0.92) 100%
+    );
+    z-index: 1;
+  }
+  .ed-exp .body {
+    position: relative;
+    z-index: 2;
+    padding: 1.6rem;
+  }
+
+  /* ── Skills dual marquee ── */
+  .ed-skline {
+    display: flex;
+    gap: 1rem;
+    width: max-content;
+  }
+  .ed-skline.a {
+    animation: marquee 36s linear infinite;
+  }
+  .ed-skline.b {
+    animation: marqueeR 36s linear infinite;
+  }
+  .ed-sk {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.65rem 1.1rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--card-soft);
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .ed-sk img {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* ── Testimonial nav ── */
+  .ed-qbtn {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: 1px solid var(--line-strong);
+    background: var(--elev-1);
+    color: var(--text);
+    display: grid;
+    place-items: center;
+    transition: all 0.2s ease;
+  }
+  .ed-qbtn:hover {
+    background: var(--accent);
+    color: var(--on-accent);
+    border-color: var(--accent);
+  }
+
+  /* ── CTA glow ── */
+  .ed-glow {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
+    height: 60%;
+    background: radial-gradient(circle, var(--accent-glow), transparent 65%);
+    opacity: 0.35;
+    filter: blur(40px);
+    z-index: -1;
+  }
+}
+
+/* ── Marquee keyframes (also used by .row above) ── */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes marqueeR {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes spin360 {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes ping2 {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ed-strip .row,
+  .ed-skline.a,
+  .ed-skline.b,
+  .ed-badge .spin {
+    animation: none !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}

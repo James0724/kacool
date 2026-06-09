@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Globe Loader</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: #f4f1ec;
+  }
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .loader {
+    position: relative;
+    width: 200px;
+    height: 200px;
+  }
+  canvas {
+    position: absolute;
+    inset: 0;
+    width: 200px;
+    height: 200px;
+    display: block;
+  }
+</style>
+</head>
+<body>
+  <div class="loader" aria-label="Loading">
+    <canvas id="whirl" width="400" height="400"></canvas>
+    <canvas id="globe" width="400" height="400"></canvas>
+  </div>
+
+<script src="https://unpkg.com/d3-array@3.2.4/dist/d3-array.min.js"></script>
+<script src="https://unpkg.com/d3-geo@3.1.1/dist/d3-geo.min.js"></script>
+<script src="https://unpkg.com/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
+<script>
+(async function () {
+  const INK = '#1a1a1a';
+  const BG  = '#f4f1ec';
+
+  const globeCv = document.getElementById('globe');
+  const whirlCv = document.getElementById('whirl');
+  const g = globeCv.getContext('2d');
+  const w = whirlCv.getContext('2d');
+
+  // Logical drawing units: 200, but canvas is 2x for crispness
+  const SIZE = 200;
+  const SCALE = 2;
+  g.scale(SCALE, SCALE);
+  w.scale(SCALE, SCALE);
+
+  const cx = SIZE / 2;
+  const cy = SIZE / 2;
+  const R  = 70; // globe radius
+
+  // Fetch world topojson (countries)
+  let countries;
+  try {
+    const res = await fetch('https://unpkg.com/world-atlas@2.0.2/countries-110m.json');
+    const topo = await res.json();
+    countries = topojson.feature(topo, topo.objects.countries);
+  } catch (e) {
+    console.error('Failed to load world data', e);
+    return;
+  }
+
+  const projection = d3.geoOrthographic()
+    .scale(R)
+    .translate([cx, cy])
+    .clipAngle(90);
+
+  const path = d3.geoPath(projection, g);
+
+  function drawGlobe(lambda) {
+    projection.rotate([lambda, -10, 0]); // slight tilt
+    g.clearRect(0, 0, SIZE, SIZE);
+
+    // Sphere fill (slightly darker than bg, very subtle)
+    g.beginPath();
+    path({ type: 'Sphere' });
+    g.fillStyle = '#ece8e1';
+    g.fill();
+
+    // Graticule (faint meridians/parallels)
+    const graticule = d3.geoGraticule10();
+    g.beginPath();
+    path(graticule);
+    g.strokeStyle = 'rgba(26,26,26,0.10)';
+    g.lineWidth = 0.5;
+    g.stroke();
+
+    // Country outlines
+    g.beginPath();
+    path(countries);
+    g.strokeStyle = INK;
+    g.lineWidth = 0.9;
+    g.lineJoin = 'round';
+    g.stroke();
+
+    // Sphere outline
+    g.beginPath();
+    path({ type: 'Sphere' });
+    g.strokeStyle = INK;
+    g.lineWidth = 1.4;
+    g.stroke();
+  }
+
+  // Whirl: orbiting arcs around the globe at varying radii
+  const whirlRings = [
+    { r: R + 12, speed: 1.6,  arcs: [{ start: 0, len: 1.3 }, { start: Math.PI, len: 0.5 }], width: 1.2, alpha: 0.85 },
+    { r: R + 20, speed: -1.1, arcs: [{ start: 0, len: 0.7 }, { start: Math.PI*0.9, len: 1.6 }], width: 1.0, alpha: 0.55 },
+    { r: R + 28, speed: 0.7,  arcs: [{ start: 0.4, len: 0.4 }, { start: Math.PI*1.1, len: 0.9 }], width: 0.8, alpha: 0.35 },
+  ];
+
+  // Particles: a few dots dragging along the outermost ring with trails
+  const particles = Array.from({ length: 5 }, (_, i) => ({
+    angle: (i / 5) * Math.PI * 2,
+    r: R + 14 + (i % 3) * 6,
+    speed: 1.4 + (i % 3) * 0.25,
+    size: 1.6 - (i % 3) * 0.3,
+  }));
+
+  function drawWhirl(t) {
+    w.clearRect(0, 0, SIZE, SIZE);
+
+    // Soft ambient ring (very faint)
+    w.beginPath();
+    w.arc(cx, cy, R + 6, 0, Math.PI * 2);
+    w.strokeStyle = 'rgba(26,26,26,0.08)';
+    w.lineWidth = 0.6;
+    w.stroke();
+
+    // Orbit arcs
+    whirlRings.forEach(ring => {
+      const phase = t * ring.speed;
+      ring.arcs.forEach(a => {
+        // Draw with a tapered look using a few overlapping arcs of decreasing alpha
+        const steps = 14;
+        for (let i = 0; i < steps; i++) {
+          const f = i / steps; // 0..1 along the arc tail
+          const segStart = a.start + phase + a.len * f;
+          const segEnd = a.start + phase + a.len * (f + 1 / steps);
+          w.beginPath();
+          w.arc(cx, cy, ring.r, segStart, segEnd);
+          // Head bright, tail fades
+          const alpha = ring.alpha * Math.pow(f, 1.6);
+          w.strokeStyle = `rgba(26,26,26,${alpha.toFixed(3)})`;
+          w.lineWidth = ring.width;
+          w.lineCap = 'round';
+          w.stroke();
+        }
+      });
+    });
+
+    // Particles with short trails
+    particles.forEach(p => {
+      const angle = p.angle + t * p.speed;
+      const trailSteps = 10;
+      for (let i = 0; i < trailSteps; i++) {
+        const a = angle - i * 0.05;
+        const px = cx + Math.cos(a) * p.r;
+        const py = cy + Math.sin(a) * p.r;
+        const alpha = (1 - i / trailSteps) * 0.7;
+        w.beginPath();
+        w.arc(px, py, p.size * (1 - i / trailSteps * 0.6), 0, Math.PI * 2);
+        w.fillStyle = `rgba(26,26,26,${alpha.toFixed(3)})`;
+        w.fill();
+      }
+    });
+  }
+
+  let start = performance.now();
+  function frame(now) {
+    const t = (now - start) / 1000;
+    // Globe rotates ~one full turn every 8s
+    const lambda = (t * 360 / 8) % 360;
+    drawGlobe(lambda);
+    drawWhirl(t);
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
