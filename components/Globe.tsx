@@ -227,7 +227,6 @@ export function Globe() {
           <SectionHeader
             cap="Global reach"
             heading="Connecting across continents"
-            description="I've partnered with clients across the globe, bringing the same precision and commitment to every timezone."
           />
 
           <Reveal

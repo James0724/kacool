@@ -96,7 +96,7 @@ export function Nav() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-[55] flex flex-col items-center justify-center gap-[1.2rem] bg-[rgba(8,13,23,0.96)] backdrop-blur-[20px]"
+            className="fixed inset-0 z-[70] flex flex-col items-center justify-center gap-[1.2rem] bg-[rgba(8,13,23,0.96)] backdrop-blur-[20px]"
           >
             <button
               type="button"
